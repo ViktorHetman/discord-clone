@@ -28,3 +28,9 @@ export interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles;
   role?: MemberRole;
 }
+
+export interface InviteCodePageProps {
+  params: {
+    inviteCode: string;
+  };
+}
