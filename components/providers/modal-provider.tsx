@@ -5,6 +5,7 @@ import React from "react";
 import CreateServerModal from "@/components/modals/CreateServerModal";
 import InviteModal from "@/components/modals/InviteModal";
 import EditServerModal from "@/components/modals/EditServerModal";
+import ManageMembersModal from "@/components/modals/ManageMembersModal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false);
@@ -20,6 +21,7 @@ export const ModalProvider = () => {
       <CreateServerModal />
       <InviteModal />
       <EditServerModal />
+      <ManageMembersModal />
     </>
   );
 };

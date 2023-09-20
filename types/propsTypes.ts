@@ -34,3 +34,8 @@ export interface InviteCodePageProps {
     inviteCode: string;
   };
 }
+
+export interface UserAvatarProps {
+  src?: string;
+  className?: string;
+}
