@@ -80,7 +80,7 @@ const ManageMembersModal = () => {
     try {
       setLoadingId(memberId);
       const url = qs.stringifyUrl({
-        url: `/api/member/${memberId}`,
+        url: `/api/members/${memberId}`,
         query: {
           serverId: server?.id,
         },
@@ -165,7 +165,7 @@ const ManageMembersModal = () => {
                           onClick={() => kickMemberHandler(member.id)}
                         >
                           <Gavel className=" h-4 w-4 mr-2" />
-                          Kick
+                          <p className="text-rose-500">Kick</p>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
