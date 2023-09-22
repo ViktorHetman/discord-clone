@@ -39,3 +39,17 @@ export interface UserAvatarProps {
   src?: string;
   className?: string;
 }
+
+export interface ServerSearchProps {
+  data: {
+    label: string;
+    type: "channel" | "member";
+    data:
+      | {
+          icon: React.ReactNode;
+          name: string;
+          id: string;
+        }[]
+      | undefined;
+  }[];
+}
