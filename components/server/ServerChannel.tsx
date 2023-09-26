@@ -8,6 +8,7 @@ import ActionTooltip from "@/components/ActionTooltip";
 
 import { ServerChannelProps } from "@/types/propsTypes";
 import { cn } from "@/lib/utils";
+import { useModal } from "@/hooks/useModalStore";
 
 const iconMap = {
   [ChannelType.TEXT]: Hash,
@@ -18,6 +19,7 @@ const iconMap = {
 const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
   const params = useParams();
   const router = useRouter();
+  const { onOpen } = useModal();
 
   const Icon = iconMap[channel.type];
 
@@ -45,7 +47,10 @@ const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
             <Edit className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition" />
           </ActionTooltip>
           <ActionTooltip label="Delete">
-            <Trash className="hidden group-hover:block w-4 h-4 text-rose-500 hover:text-rose-600 transition" />
+            <Trash
+              onClick={() => onOpen("deleteServer", { server, channel })}
+              className="hidden group-hover:block w-4 h-4 text-rose-500 hover:text-rose-600 transition"
+            />
           </ActionTooltip>
         </div>
       )}
