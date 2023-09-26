@@ -51,3 +51,61 @@ export const DELETE = async (
     return new NextResponse("Internal Error", { status: 500 });
   }
 };
+
+export const PATCH = async (
+  req: Request,
+  { params }: { params: { channelId: string } }
+) => {
+  try {
+    const profile = await currentProfile();
+    const { name, type } = await req.json();
+    const { searchParams } = new URL(req.url);
+
+    const serverId = searchParams.get("serverId");
+
+    if (!profile) new NextResponse("Unauthorized", { status: 401 });
+
+    if (!serverId) new NextResponse("Missing Server ID", { status: 400 });
+
+    if (!params.channelId)
+      new NextResponse("Missing Channel Id", { status: 400 });
+
+    if (name === "general")
+      new NextResponse("Name cannot be 'general", { status: 400 });
+
+    const server = await db.server.update({
+      where: {
+        id: serverId!,
+        members: {
+          some: {
+            profileId: profile?.id,
+            role: {
+              in: [MemberRole.MODERATOR, MemberRole.ADMIN],
+            },
+          },
+        },
+      },
+      data: {
+        channels: {
+          update: {
+            where: {
+              id: params.channelId,
+              NOT: {
+                name: "general",
+              },
+            },
+            data: {
+              name,
+              type,
+            },
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(server);
+  } catch (error) {
+    console.log("[CHANNEL_PATCH]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+};
