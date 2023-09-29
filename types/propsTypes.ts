@@ -80,3 +80,9 @@ export interface ServerMemberProps {
   member: Member & { profile: Profile };
   server: Server;
 }
+
+export interface ServerIDPageProps {
+  params: {
+    serverId: string;
+  };
+}
