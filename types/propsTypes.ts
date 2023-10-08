@@ -86,3 +86,17 @@ export interface ServerIDPageProps {
     serverId: string;
   };
 }
+
+export interface ChannelIdPageProps {
+  params: {
+    serverId: string;
+    channelId: string;
+  };
+}
+
+export interface ChatHeaderProps {
+  serverId: string;
+  name: string;
+  type: "channel" | "conversation";
+  imageUrl?: string;
+}
