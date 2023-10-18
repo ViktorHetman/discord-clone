@@ -100,3 +100,10 @@ export interface ChatHeaderProps {
   type: "channel" | "conversation";
   imageUrl?: string;
 }
+
+export interface MemberIdPageProps {
+  params: {
+    memberId: string;
+    serverId: string;
+  };
+}
