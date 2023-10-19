@@ -36,7 +36,7 @@ const ServerHeader = ({ role, server }: ServerHeaderProps) => {
             dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition"
         >
           {server.name}
-          <ChevronDown className="h-5 w-5 ml-auto" />
+          <ChevronDown className="h-5 w-5 ml-auto max-md:ml-1" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">

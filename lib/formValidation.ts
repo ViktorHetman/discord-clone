@@ -15,3 +15,7 @@ export const validationForCreateChannelForm = zod.object({
     }),
   type: zod.nativeEnum(ChannelType),
 });
+
+export const validationForChatInput = zod.object({
+  content: zod.string().min(1),
+});
