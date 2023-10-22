@@ -12,8 +12,11 @@ import { Input } from "@/components/ui/input";
 
 import { ChatInputProps } from "@/types/propsTypes";
 import { validationForChatInput } from "@/lib/formValidation";
+import { useModal } from "@/hooks/useModalStore";
 
 const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
+  const { onOpen } = useModal();
+
   const form = useForm<zod.infer<typeof validationForChatInput>>({
     defaultValues: {
       content: "",
@@ -55,7 +58,10 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                     hover:bg-zinc-600 dark:hover:bg-zinc-300 transition rounded-full p-1 flex
                     items-center justify-center"
                   >
-                    <Plus className="text-white dark:text-[#313338]" />
+                    <Plus
+                      className="text-white dark:text-[#313338]"
+                      onClick={() => onOpen("messageFile", { apiUrl, query })}
+                    />
                   </button>
                   <Input
                     disabled={isLoading}
