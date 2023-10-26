@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { ChatItemProps } from "@/types/propsTypes";
 import { validationForEditingMessage } from "@/lib/formValidation";
 import { cn } from "@/lib/utils";
+import { useModal } from "@/hooks/useModalStore";
 
 const roleIconMap = {
   GUEST: null,
@@ -39,7 +40,7 @@ const ChatItem = ({
   timestamp,
 }: ChatItemProps) => {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
-  const [isDeleting, setIsDeleting] = React.useState<boolean>(false);
+  const { onOpen } = useModal();
 
   const form = useForm<zod.infer<typeof validationForEditingMessage>>({
     resolver: zodResolver(validationForEditingMessage),
@@ -71,10 +72,15 @@ const ChatItem = ({
         query: socketQuery,
       });
       await axios.patch(url, values);
+
+      form.reset();
+      setIsEditing(false);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const onDelete = async () => {};
 
   React.useEffect(() => {
     form.reset({
@@ -212,6 +218,12 @@ const ChatItem = ({
           )}
           <ActionTooltip label="Delete">
             <Trash
+              onClick={() =>
+                onOpen("deleteMessage", {
+                  apiUrl: `${socketUrl}/${id}`,
+                  query: socketQuery,
+                })
+              }
               className="cursor-pointer ml-auto w-4 h-4 text-zinc-500
                     hover:text-zinc-600 dark:hover:text-zinc-300 transition"
             />
