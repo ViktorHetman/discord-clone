@@ -91,8 +91,6 @@ const ChatItem = ({
     }
   };
 
-  const onDelete = async () => {};
-
   React.useEffect(() => {
     form.reset({
       content: content,

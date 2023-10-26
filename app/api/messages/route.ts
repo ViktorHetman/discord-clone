@@ -14,8 +14,13 @@ export const GET = async (req: Request) => {
     const cursor = searchParams.get("cursor");
     const channelId = searchParams.get("channelId");
 
-    if (!profile) new NextResponse("Unauthorized", { status: 401 });
-    if (!channelId) new NextResponse("Channel ID Missing", { status: 400 });
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    if (!channelId) {
+      return new NextResponse("Channel ID missing", { status: 400 });
+    }
 
     let messages: Message[] = [];
 
@@ -27,7 +32,7 @@ export const GET = async (req: Request) => {
           id: cursor,
         },
         where: {
-          channelId: channelId!,
+          channelId,
         },
         include: {
           member: {
@@ -44,7 +49,7 @@ export const GET = async (req: Request) => {
       messages = await db.message.findMany({
         take: MESSAGES_BATCH,
         where: {
-          channelId: channelId!,
+          channelId,
         },
         include: {
           member: {
@@ -59,14 +64,15 @@ export const GET = async (req: Request) => {
       });
     }
 
-    let nextCursos = null;
+    let nextCursor = null;
+
     if (messages.length === MESSAGES_BATCH) {
-      nextCursos = messages[MESSAGES_BATCH - 1].id;
+      nextCursor = messages[MESSAGES_BATCH - 1].id;
     }
 
     return NextResponse.json({
       items: messages,
-      nextCursos,
+      nextCursor,
     });
   } catch (error) {
     console.log("[MESSAGES_GET]", error);
