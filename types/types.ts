@@ -25,3 +25,9 @@ export type MessageWithMemberWithProfile = Message & {
     profile: Profile;
   };
 };
+
+export type ChatSocketType = {
+  addKey: string;
+  updateKey: string;
+  queryKey: string;
+};

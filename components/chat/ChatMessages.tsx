@@ -8,6 +8,7 @@ import ChatWelcome from "./ChatWelcome";
 import ChatItem from "./ChatItem";
 
 import { useChatQuery } from "@/hooks/useChatQuery";
+import { useChatSocket } from "@/hooks/useChatSocket";
 import { ChatMessagesProps } from "@/types/propsTypes";
 import { MessageWithMemberWithProfile } from "@/types/types";
 
@@ -25,9 +26,12 @@ const ChatMessages = ({
   type,
 }: ChatMessagesProps) => {
   const queryKey = `chat:${chatId}`;
+  const addKey = `chat:${chatId}:messages`;
+  const updateKey = `chat:${chatId}:messages:update`;
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({ queryKey, apiUrl, paramKey, paramValue });
+  useChatSocket({ queryKey, addKey, updateKey });
 
   if (status === "pending") {
     return (

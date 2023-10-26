@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from "lucide-react";
 import { MemberRole } from "@prisma/client";
 import Image from "next/image";
+import { useRouter, useParams } from "next/navigation";
 
 import ActionTooltip from "@/components/ActionTooltip";
 import UserAvatar from "@/components/UserAvatar";
@@ -41,6 +42,8 @@ const ChatItem = ({
 }: ChatItemProps) => {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
   const { onOpen } = useModal();
+  const params = useParams();
+  const router = useRouter();
 
   const form = useForm<zod.infer<typeof validationForEditingMessage>>({
     resolver: zodResolver(validationForEditingMessage),
@@ -48,6 +51,14 @@ const ChatItem = ({
       content: content,
     },
   });
+
+  const onMemberClick = () => {
+    if (member.id === currentMember.id) {
+      return;
+    }
+
+    router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
+  };
 
   React.useEffect(() => {
     const handleKeyDown = (event: any) => {
@@ -101,13 +112,19 @@ const ChatItem = ({
   return (
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
       <div className="group flex gap-x-2 items-start w-full">
-        <div className="cursor-pointer hover:drop-shadow-md transition">
+        <div
+          onClick={() => onMemberClick()}
+          className="cursor-pointer hover:drop-shadow-md transition"
+        >
           <UserAvatar src={member.profile.imageUrl} />
         </div>
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
-              <p className="font-semibold text-sm hover:underline cursor-pointer">
+              <p
+                onClick={() => onMemberClick()}
+                className="font-semibold text-sm hover:underline cursor-pointer"
+              >
                 {member.profile.name}
               </p>
               <ActionTooltip label={member.role}>
